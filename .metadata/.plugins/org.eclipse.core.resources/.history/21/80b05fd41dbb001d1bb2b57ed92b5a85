@@ -1,0 +1,12 @@
+package pom;
+
+import baseClass.IOSFunctions;
+
+public class IosWebApp  extends IOSFunctions{
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,12 @@
+package runner;
+
+import org.junit.runner.RunWith;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = "", features = {}, glue = {}, dryRun = true, tags = "@tag1")
+public class RunCucumberTest {
+
+}

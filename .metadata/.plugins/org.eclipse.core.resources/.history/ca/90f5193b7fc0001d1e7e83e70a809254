@@ -1,0 +1,51 @@
+package com.test.stepDefinitions;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.test.utils.ReportUtilities;
+
+public class TestExtentReport extends ReportUtilities {
+
+	@BeforeAll
+	public static void setupEnvironment() {
+		reports(".//trgt//extentReports", "functionalTest1");
+		reports(".//trgt//extentReports", "functionalTest2");
+		reports(".//trgt//extentReports", "functionalTest3");
+	}
+
+	@BeforeEach
+	public static void loginFunction() {
+
+	}
+
+	@Test
+	public void functionalTest1() {
+
+		startTest("functionalTest1");
+
+	}
+
+	@Test
+	public void functionalTest2() {
+		startTest("functionalTest2");
+	}
+
+	@Test
+	public void functionalTest3() {
+		startTest("functionalTest3");
+	}
+
+	@AfterEach
+	public static void validateLogoutFunction() {
+		endTest();
+	}
+
+	@AfterAll
+	public static void appResetEnvironmentTeardown() {
+
+	}
+}

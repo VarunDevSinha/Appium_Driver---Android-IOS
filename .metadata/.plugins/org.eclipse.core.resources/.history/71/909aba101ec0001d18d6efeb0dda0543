@@ -1,0 +1,31 @@
+package com.test.stepDefinitions;
+
+import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
+
+public class IosTest {
+
+	@BeforeAll
+	public static void setupEnvironment() {
+
+	}
+
+	@Before
+	public static void loginFunction() {
+
+	}
+
+	@After
+	public static void validateLogoutFunction() {
+
+	}
+
+	@AfterAll
+	public static void appResetEnvironmentTeardown() {
+
+	}
+
+	// @Test - Not a hook.
+}

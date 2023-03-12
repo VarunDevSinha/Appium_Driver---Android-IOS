@@ -1,0 +1,41 @@
+package com.test.stepDefinitions;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+
+public class TestExtentReport {
+
+	@BeforeAll
+	public static void setupEnvironment() {
+
+		ExtentReports report = new ExtentReports();
+
+		ExtentTest test = report.createTest("functionalTest");
+	}
+
+	@BeforeEach
+	public static void loginFunction() {
+
+	}
+
+	@Test
+	public void functionalTest() {
+
+	}
+
+	@AfterEach
+	public static void validateLogoutFunction() {
+
+	}
+
+	@AfterAll
+	public static void appResetEnvironmentTeardown() {
+
+	}
+}

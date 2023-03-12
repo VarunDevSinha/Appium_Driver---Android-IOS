@@ -1,0 +1,5 @@
+package com.test.runner;
+
+public class RunCucumberTest {
+
+}

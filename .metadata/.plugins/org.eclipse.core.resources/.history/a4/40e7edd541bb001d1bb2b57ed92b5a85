@@ -1,0 +1,518 @@
+package com.test.base;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.interactions.Actions;
+
+public class AndroidFunctions extends AppiumBaseClass {
+
+	// Element functions for Android.
+	// Find elements using locators.
+	public static WebElement androidNativeElement(String Locator, String LocatorValue) {
+
+		WebElement element = null;
+		switch (Locator) {
+		case "id":
+			element = andDriver.findElement(By.id(LocatorValue));
+			break;
+		case "className":
+			element = andDriver.findElement(By.className(LocatorValue));
+			break;
+		case "xpath":
+			element = andDriver.findElement(By.xpath(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - id / className / xpath.");
+		}
+		return element;
+	}
+
+	public static List<WebElement> androidNativeElements(String Locator, String LocatorValue) {
+
+		List<WebElement> elements = null;
+		switch (Locator) {
+		case "className":
+			elements = andDriver.findElements(By.className(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - className.");
+		}
+		return elements;
+	}
+
+	public static WebElement androidWebElement(String Locator, String LocatorValue) {
+
+		WebElement element = null;
+		switch (Locator) {
+		case "id":
+			element = andDriver.findElement(By.id(LocatorValue));
+			break;
+		case "className":
+			element = andDriver.findElement(By.className(LocatorValue));
+			break;
+		case "name":
+			element = andDriver.findElement(By.name(LocatorValue));
+			break;
+		case "xpath":
+			element = andDriver.findElement(By.xpath(LocatorValue));
+			break;
+		case "cssSelector":
+			element = andDriver.findElement(By.cssSelector(LocatorValue));
+			break;
+		case "tagName":
+			element = andDriver.findElement(By.tagName(LocatorValue));
+			break;
+		case "linkText":
+			element = andDriver.findElement(By.linkText(LocatorValue));
+			break;
+		case "partialLinkText":
+			element = andDriver.findElement(By.partialLinkText(LocatorValue));
+			break;
+		default:
+			log.info(
+					"Give \"Locator\" as - id / className / name / xpath / cssSelector / tagName / linkText / partialLinkText.");
+		}
+		return element;
+	}
+
+	public static List<WebElement> androidWebElements(String Locator, String LocatorValue) {
+
+		List<WebElement> elements = null;
+
+		switch (Locator) {
+		case "className":
+			elements = andDriver.findElements(By.className(LocatorValue));
+			break;
+		case "name":
+			elements = andDriver.findElements(By.name(LocatorValue));
+			break;
+		case "tagName":
+			elements = andDriver.findElements(By.tagName(LocatorValue));
+			break;
+		case "partialLinkText":
+			elements = andDriver.findElements(By.partialLinkText(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - className / name / tagName / partialLinkText.");
+		}
+
+		return elements;
+	}
+
+	public static WebElement switchActiveElement() {
+
+		WebElement element;
+		element = andDriver.switchTo().activeElement();
+		return element;
+
+	}
+
+	// Element Action functions for Android.
+	// Single Element.
+	public static void androidElementAction(WebElement element, String actionType, String sendKeysValue) {
+
+		switch (actionType) {
+		case "submit":
+			element.submit();
+			break;
+		case "click":
+			element.click();
+		case "clear":
+			element.clear();
+			break;
+		case "sendKeys":
+			element.sendKeys(sendKeysValue);
+		default:
+			log.info("Give \"action\" as - submit / click / sendKeys; with string value in \"sendKeysValue\" / clear.");
+		}
+
+	}
+
+	// Element list.
+	public static void androidElementsAction(List<WebElement> elements, String actionType, String[] sendKeysValues) {
+
+		switch (actionType) {
+		case "submit":
+			for (WebElement element : elements) {
+				element.submit();
+			}
+			break;
+		case "click":
+			for (WebElement element : elements) {
+				element.click();
+			}
+		case "clear":
+			for (WebElement element : elements) {
+				element.clear();
+			}
+			break;
+		case "sendKeys":
+			for (WebElement element : elements) {
+				for (String value : sendKeysValues) {
+					element.sendKeys(value);
+				}
+			}
+			break;
+		default:
+			log.info("Give \"action\" as - submit / click / sendKeys; with string value in \"sendKeysValue\" / clear.");
+		}
+	}
+
+	// Get Element Attributes Functions.
+	public static void elementAttribute(WebElement element, String attributeType, String cssvalueORattribute) {
+
+		switch (attributeType) {
+		case "text":
+			String text = element.getText();
+			System.out.println("Element text: " + text);
+			break;
+		case "name":
+			String name = element.getTagName();
+			System.out.println("Element text: " + name);
+			break;
+		case "location":
+			Point location = element.getLocation();
+			System.out.println("X: " + location.getX() + " and Y: " + location.getY());
+			break;
+		case "size":
+			Dimension size = element.getSize();
+			System.out.println("Height: " + size.getHeight() + " and Width: " + size.getWidth());
+			break;
+		case "rectangle":
+			Rectangle rectangle = element.getRect();
+			System.out.println("X: " + rectangle.getX() + ", " + "Y: " + rectangle.getY() + ", " + "Height: "
+					+ rectangle.getHeight() + ",and Width: " + rectangle.getWidth());
+			break;
+		case "attribute":
+			String attributeValue = element.getAttribute(cssvalueORattribute);
+			System.out.println("Element attribute's value for" + cssvalueORattribute + "is: " + attributeValue);
+			break;
+		case "cssProperty":
+			String cssPropertyValue = element.getCssValue(cssvalueORattribute);
+			System.out.println("Element attribute's value for" + cssvalueORattribute + "is: " + cssPropertyValue);
+			break;
+		default:
+			log.info(
+					"Give \"attributeType\" as - text / name / location / size / rectangle / attribute / cssProperty.");
+		}
+	}
+
+	// Element validation functions
+	public static boolean validateAndroidElement(WebElement element, String validationType) {
+
+		boolean validatesTo = false;
+
+		switch (validationType) {
+		case "isEnabled":
+			validatesTo = element.isEnabled();
+			break;
+		case "isDisplayed":
+			validatesTo = element.isDisplayed();
+			break;
+		case "isSelected":
+			validatesTo = element.isSelected();
+			break;
+		default:
+			log.info("Give \"validationType\" as - isEnabled / isDisplayed / isSelected.");
+		}
+
+		return validatesTo;
+	}
+
+	// Session functions
+	public static void androidScreenshot(String screenshotType, String pageNameElementName, WebElement element)
+			throws IOException {
+
+		switch (screenshotType) {
+		case "driver":
+			File screenshotDriver = ((TakesScreenshot) andDriver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenshotDriver,
+					new File("//lib//trgt//screenshots//" + pageNameElementName + System.currentTimeMillis() + ".png"));
+			break;
+		case "element":
+			File screenshotElement = element.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenshotElement,
+					new File("//lib//trgt//screenshots//" + pageNameElementName + System.currentTimeMillis() + ".png"));
+			break;
+		default:
+			log.info(
+					"Give \"screenshotType\" as - driver / element. And \"pageNameElementName\" as - titleOfCurrentpage / nameOfTargetElement.");
+		}
+
+	}
+
+	public static void sessionTimeout(String timeoutType, long seconds) {
+
+		switch (timeoutType) {
+		case "pageLoadTimeout":
+			andDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(seconds));
+			break;
+		case "implicitlyWait":
+			andDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
+			break;
+		case "setScriptTimeout":
+			andDriver.manage().timeouts().scriptTimeout(Duration.ofSeconds(seconds));
+			break;
+		default:
+			log.info("Give \"timeoutType\" as - pageLoadTimeout / implicitlyWait / setScriptTimeout.");
+		}
+	}
+
+	public static void sessionScreenOrientation(String orientationAction) {
+
+		switch (orientationAction) {
+		case "setOrientation":
+			ScreenOrientation currentOrientation = andDriver.getOrientation();
+			if (currentOrientation.toString().equalsIgnoreCase("Landscape")) {
+				andDriver.rotate(ScreenOrientation.PORTRAIT);
+			} else {
+				andDriver.rotate(ScreenOrientation.LANDSCAPE);
+			}
+			break;
+		case "getOrientation":
+			andDriver.getOrientation();
+			break;
+		default:
+			log.info("Give \"orientationAction\" as - setOrientation / getOrientation.");
+		}
+	}
+
+	// Android device functions.
+	public static void androidApp(String appActionType) {
+
+		switch (appActionType) {
+		case "isAppInstalled":
+			andDriver.isAppInstalled(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "installApp":
+			andDriver.installApp(configFileProp.getProperty("AndApp"));
+			break;
+		case "getAppState":
+			System.out.println(
+					"Current App state is: " + andDriver.queryAppState(configFileProp.getProperty("AndAppPackage")));
+			break;
+		case "backgroundApp":
+			andDriver.runAppInBackground(Duration.ofSeconds(5));
+			break;
+		case "activateApp":
+			andDriver.activateApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "terminateApp":
+			andDriver.terminateApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "removeApp":
+			andDriver.removeApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		default:
+			log.info(
+					"Give \"appActionType\" as - isAppInstalled / installApp / getAppState / backgroundApp / activateApp / terminateApp / removeApp.");
+		}
+	}
+
+	public static void androidFileActions(String fileActionType, String SrcFilePath) throws IOException {
+
+		switch (fileActionType) {
+		case "pushFile":
+			andDriver.pushFile(SrcFilePath, new File(configFileProp.getProperty("AndPushFilePath")));
+			break;
+		case "pullFile":
+			byte[] pulledFile = andDriver.pullFile(configFileProp.getProperty("AndPullFilePath"));
+			System.out.println(pulledFile.toString());
+			break;
+		case "pullFolder":
+			byte[] pulledFolder = andDriver.pullFile(configFileProp.getProperty("AndPullFolderPath"));
+			System.out.println(pulledFolder.toString());
+			break;
+		default:
+			log.info("Give \"fileActionType\" as - pushFile / pullFile / pullFolder.");
+		}
+	}
+
+	// Android Time and Lock button interaction.
+	public static void androidDeviceInteractions(String interactionType) {
+
+		switch (interactionType) {
+		case "deviceTime":
+			andDriver.getDeviceTime();
+			break;
+		case "isLocked":
+			boolean deviceLockStatus = andDriver.isDeviceLocked();
+			if (deviceLockStatus == true) {
+				andDriver.unlockDevice();
+			} else {
+				andDriver.lockDevice(Duration.ofSeconds(5));
+			}
+			break;
+		case "lock":
+			andDriver.lockDevice(Duration.ofSeconds(5));
+			break;
+		case "unlock":
+			andDriver.unlockDevice();
+			break;
+		default:
+			log.info("Give \"interactionType\" as - deviceTime / isLocked / lock / unlock.");
+		}
+	}
+
+	// Android Mouse and Screen interaction.
+	public static void deviceMouseTouchFunctions(String mouseActionType, WebElement element, int x, int y) {
+
+		Actions act = new Actions(andDriver);
+
+		switch (mouseActionType) {
+		case "moveToElement":
+			act.moveToElement(element);
+			break;
+		case "moveToCordinate":
+			act.moveByOffset(x, y);
+			break;
+		case "click":
+			act.click(element).perform();
+			break;
+		case "doubleClick":
+			act.doubleClick(element).perform();
+			break;
+		case "clickHold":
+			act.clickAndHold(element).perform();
+			break;
+		case "clickHoldRelease":
+			act.dragAndDropBy(element, x, y);
+			break;
+		default:
+			log.info(
+					"Give \"mouseActionType\" as - moveToElement / moveToCordinate / click / doubleClick / clickHold / clickHoldRelease.");
+		}
+	}
+
+	public static Set<String> windowHandle(String handleType) {
+
+		Set<String> windowHandles = new HashSet<String>();
+
+		switch (handleType) {
+		case "singleWindow":
+			windowHandles.add(andDriver.getWindowHandle());
+			break;
+		case "multiWindow":
+			windowHandles.addAll(andDriver.getWindowHandles());
+			break;
+		default:
+			log.info("Give \"handleType\" as - singleWindow / multiWindow.");
+		}
+		return windowHandles;
+	}
+
+	public static void windowSizePosition(String windowHandle, String windowManageType, Dimension winSize,
+			Point winPosition) {
+
+		switch (windowManageType) {
+		case "maximize":
+			andDriver.manage().window().maximize();
+			break;
+		case "getSize":
+			Dimension curWinSize = andDriver.manage().window().getSize();
+			System.out.println("Window size H:W is - " + curWinSize.getHeight() + ":" + curWinSize.getWidth());
+			break;
+		case "setSize":
+			andDriver.manage().window().setSize(winSize);
+			break;
+		case "getPosition":
+			Point curWinPos = andDriver.manage().window().getPosition();
+			System.out.println("Window position X:Y is - " + curWinPos.getX() + ":" + curWinPos.getY());
+			break;
+		case "setPosition":
+			andDriver.manage().window().setPosition(winPosition);
+			break;
+		default:
+			log.info(
+					"Give \"windowManageType\" as - maximize / getSize / setSize; with Height and Width as winSize/ getPosition / setPosition; with x and y as winPosition.");
+		}
+	}
+
+	public static void windowSwitchNavigateFunctions(String switchAction, String windowHandle, URL newURL,
+			WebElement frameElement) {
+
+		switch (switchAction) {
+		case "goURL":
+			andDriver.get(newURL.toString());
+			break;
+		case "getURL":
+			System.out.println("Current window / tab URL: " + andDriver.getCurrentUrl());
+			break;
+		case "back":
+			andDriver.navigate().back();
+			break;
+		case "forward":
+			andDriver.navigate().forward();
+			break;
+		case "refresh":
+			andDriver.navigate().refresh();
+			break;
+		case "switchToFrame":
+			andDriver.switchTo().frame(frameElement);
+			break;
+		case "switchToParentFrame":
+			andDriver.switchTo().parentFrame();
+			break;
+		case "openNewWindow":
+			String newWindowHandle = andDriver.switchTo().newWindow(WindowType.WINDOW).getWindowHandle();
+			System.out.println("New open windowHandle is - " + newWindowHandle);
+			break;
+		case "openNewTab":
+			String newTabHandle = andDriver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
+			System.out.println("New open windowHandle is - " + newTabHandle);
+			break;
+		case "switchTo":
+			andDriver.switchTo().window(windowHandle);
+			break;
+		case "getTitle":
+			andDriver.getTitle();
+			break;
+		case "close":
+			andDriver.close();
+			break;
+		default:
+			log.info(
+					"Give \"switchAction\" as - goURL / getURL / back / forward / refresh / switchToFrame; frame WebElement / switchToParentFrame / openNewWindow / openNewTab / switchTo / getTitle / close. Add specific window handle as string.");
+		}
+	}
+
+	public static void cookieStorageFunction(String cookieFunctionType, String deleteCookie, Cookie setCookie) {
+
+		switch (cookieFunctionType) {
+		case "setCookie":
+			andDriver.manage().addCookie(setCookie);
+			break;
+		case "getAllCookie":
+			Set<Cookie> currentCookies = andDriver.manage().getCookies();
+			Stream<Cookie> cookieStream = currentCookies.stream();
+			cookieStream.forEach(t -> System.out.println(t));
+			break;
+		case "deleteCookie":
+			andDriver.manage().deleteCookieNamed(deleteCookie);
+			break;
+		case "deleteAllCookie":
+			andDriver.manage().deleteAllCookies();
+			break;
+		default:
+			log.info("Give \"cookieFunctionType\" as - setCookie / getAllCookie / deleteCookie / deleteAllCookie.");
+		}
+	}
+}

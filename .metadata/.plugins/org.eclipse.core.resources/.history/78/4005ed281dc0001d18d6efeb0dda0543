@@ -1,0 +1,31 @@
+package com.test.stepDefinitions;
+
+import org.junit.jupiter.api.BeforeAll;
+
+public class TestExtentReport {
+
+	@BeforeAll
+	public static void setupEnvironment() {
+		
+	}
+	
+	@Before
+	public static void loginFunction() {
+		
+	}
+	
+	@Test
+	public static void functionalTest() {
+		
+	}
+	
+	@After
+	public static void validateLogoutFunction() {
+		
+	}
+	
+	@AfterAll
+	public static void appResetEnvironmentTeardown() {
+		
+	}
+}

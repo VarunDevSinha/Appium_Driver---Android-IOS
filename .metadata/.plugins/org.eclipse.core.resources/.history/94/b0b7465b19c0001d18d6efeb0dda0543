@@ -1,0 +1,12 @@
+package com.test.pom;
+
+import com.test.utils.AndroidFunctions;
+
+public class AndroidWebApp  extends AndroidFunctions{
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

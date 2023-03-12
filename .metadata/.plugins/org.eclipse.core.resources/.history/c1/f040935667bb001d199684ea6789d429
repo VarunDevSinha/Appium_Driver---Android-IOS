@@ -1,0 +1,15 @@
+#Author - varundevsinha@gmail.com
+Feature: This feature file is to test functionality of web application and native application, on mobile device.
+
+Background: The environment is available
+	Given I initialized the server and device emulator.
+	
+	@Android @WebApp
+	Scenario: The user is able to login with valid "user_id" and "password".
+	Given The user submits user_id and password on login page.
+	And Successfully logged in as valid user.
+	When Verifying the access to hyperlink, and user is able to navigate.
+	Then With the details user able to search the case.
+	And Takes the action to update case status successfully and logged out.
+	
+	

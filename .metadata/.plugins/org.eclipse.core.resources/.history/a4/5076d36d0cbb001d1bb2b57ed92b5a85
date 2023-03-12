@@ -1,0 +1,6 @@
+package baseClass;
+
+public class IOSFunctions extends AppiumBaseClass {
+	
+	
+}

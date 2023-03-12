@@ -1,0 +1,266 @@
+package com.test.base;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Properties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.BeforeAll;
+
+public class JavaAppiumBase {
+
+	// Class variables.
+	public static Logger log = (Logger) LogManager.getLogger(JavaAppiumBase.class.getName());
+	public static String configFilePath = ".//src//main//resources//configuration//configuration.properties";
+	public static Properties configFileProp;
+	public static AppiumDriverLocalService appiumServer;
+	public static DesiredCapabilities andiosCapabilities;
+	public static UiAutomator2Options andOptions;
+	public static AndroidDriver andDriver;
+	public static XCUITestOptions iosOptions;
+	public static IOSDriver iosDriver;
+
+	@BeforeAll
+	public static void InitializeServerDriver() throws MalformedURLException, IOException {
+
+		// Method to Load properties file to properties object.
+		File configFile = new File(configFilePath);
+		FileInputStream configFileIS = new FileInputStream(configFile);
+		configFileProp.load(configFileIS);
+
+		// Get values to Initialize server and driver.
+		String TestApproach = configFileProp.getProperty("TestApproach");
+		String DevicePlatform = configFileProp.getProperty("DevicePlatform");
+
+		// To start AppiumServer.
+		switch (TestApproach) {
+		// Start AppiumServer in Local server.
+		case "Local":
+			System.out.println();
+			// Start Driver in Local server.
+			switch (DevicePlatform) {
+			// Start Android driver.
+			case "Android":
+				// Initialize AppiumServer locally.
+				appiumServer = new AppiumServiceBuilder()
+						.withAppiumJS(new File(configFileProp.getProperty("LocalAppiumMainJSPath")))
+						.withIPAddress(configFileProp.getProperty("LocalIPAddress"))
+						.usingPort(Integer.parseInt(configFileProp.getProperty("LocalPort"))).build();
+				appiumServer.start();
+
+				// Set AndroidOptions
+				andOptions = new UiAutomator2Options();
+				andOptions.setAutomationName(configFileProp.getProperty("AndAutomationName"));
+				andOptions.setPlatformName(configFileProp.getProperty("AndPlatformName"));
+				andOptions.setPlatformVersion(configFileProp.getProperty("AndPlatformVersion"));
+				andOptions.setDeviceName(configFileProp.getProperty("AndDeviceName"));
+				andOptions.setApp(configFileProp.getProperty("AndApp"));
+				andOptions.setAppPackage(configFileProp.getProperty("AndAppPackage"));
+				andOptions.withBrowserName(configFileProp.getProperty("AndBrowserName"));
+
+				// Set AndroidCapabilities
+				andiosCapabilities = new DesiredCapabilities();
+				andiosCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+						configFileProp.getProperty("AndAutomationName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
+						configFileProp.getProperty("AndPlatformName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+						configFileProp.getProperty("AndPlatformVersion"));
+				andiosCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+						configFileProp.getProperty("AndDeviceName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.APP, configFileProp.getProperty("AndApp")); // With
+																													// path
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+						configFileProp.getProperty("AndBrowserName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_VERSION,
+						configFileProp.getProperty("AndBrowserVersion"));
+				// Set specific AndroidCapabilities with AndroidMobileCapabilityType.
+				andiosCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,
+						configFileProp.getProperty("AndAppPackage")); // With Application package
+
+				// Initialize Android driver.
+				andDriver = new AndroidDriver(appiumServer, andOptions); // With Options.
+				andDriver = new AndroidDriver(appiumServer, andiosCapabilities); // With Capabilities.
+				log.info("Current session Id is: " + andDriver.getSessionId());
+				break;
+
+			// Connect with IOS device.
+			case "IOS":
+				// Initialize AppiumServer locally.
+				appiumServer = new AppiumServiceBuilder()
+						.withAppiumJS(new File(configFileProp.getProperty("LocalAppiumMainJSPath")))
+						.withIPAddress(configFileProp.getProperty("LocalIPAddress"))
+						.usingPort(Integer.parseInt(configFileProp.getProperty("LocalPort"))).build();
+				appiumServer.start();
+
+				// Set IosOptions
+				iosOptions = new XCUITestOptions();
+				iosOptions.setAutomationName(configFileProp.getProperty("IosAutomationName"));
+				iosOptions.setPlatformName(configFileProp.getProperty("IosPlatformName"));
+				iosOptions.setPlatformVersion(configFileProp.getProperty("IosPlatformVersion"));
+				iosOptions.setDeviceName(configFileProp.getProperty("IosDeviceName"));
+				iosOptions.setApp(configFileProp.getProperty("IosApp"));
+				iosOptions.withBrowserName(configFileProp.getProperty("IosBrowserName"));
+
+				// Set IosCapabilities
+				andiosCapabilities = new DesiredCapabilities();
+				andiosCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+						configFileProp.getProperty("IosAutomationName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
+						configFileProp.getProperty("IosPlatformName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+						configFileProp.getProperty("IosPlatformVersion"));
+				andiosCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+						configFileProp.getProperty("IosDeviceName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.APP, configFileProp.getProperty("AndApp")); // With
+																													// path
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+						configFileProp.getProperty("IosBrowserName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_VERSION,
+						configFileProp.getProperty("IosBrowserVersion"));
+
+				// Initialize IOS driver.
+				iosDriver = new IOSDriver(appiumServer, iosOptions); // With Options.
+				iosDriver = new IOSDriver(appiumServer, andiosCapabilities); // With Capabilities.
+				log.info("Current session Id is: " + iosDriver.getSessionId());
+				break;
+			}
+			break;
+
+		// Start AppiumServer in Remote server.
+		case "Remote":
+			switch (DevicePlatform) {
+			// Connect with Android device.
+			case "Android":
+				// Start AppiumServer and AndroidDriver in Remote server.
+				// Set AndroidOptions
+				andOptions = new UiAutomator2Options();
+				andOptions.setAutomationName(configFileProp.getProperty("AndAutomationName"));
+				andOptions.setPlatformName(configFileProp.getProperty("AndPlatformName"));
+				andOptions.setPlatformVersion(configFileProp.getProperty("AndPlatformVersion"));
+				andOptions.setDeviceName(configFileProp.getProperty("AndDeviceName"));
+				andOptions.setApp(configFileProp.getProperty("AndApp"));
+				andOptions.setAppPackage(configFileProp.getProperty("AndAppPackage"));
+				andOptions.withBrowserName(configFileProp.getProperty("AndBrowserName"));
+
+				// Set AndroidCapabilities
+				andiosCapabilities = new DesiredCapabilities();
+				andiosCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+						configFileProp.getProperty("AndAutomationName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
+						configFileProp.getProperty("AndPlatformName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+						configFileProp.getProperty("AndPlatformVersion"));
+				andiosCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+						configFileProp.getProperty("AndDeviceName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.APP, configFileProp.getProperty("AndApp")); // With
+																													// path
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+						configFileProp.getProperty("AndBrowserName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_VERSION,
+						configFileProp.getProperty("AndBrowserVersion"));
+				// Set specific AndroidCapabilities with AndroidMobileCapabilityType.
+				andiosCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,
+						configFileProp.getProperty("AndAppPackage")); // With Application package
+
+				// Initialize Android driver and AppiumServer in Remote Server.
+				andDriver = new AndroidDriver(new URL(configFileProp.getProperty("RemoteAppiumServerURL")), andOptions); // With
+																															// andOptions
+				andDriver = new AndroidDriver(new URL(configFileProp.getProperty("RemoteAppiumServerURL")),
+						andiosCapabilities); // With Capabilities.
+				log.info("Current session Id is: " + andDriver.getSessionId());
+				break;
+
+			// Connect with IOS device.
+			case "IOS":
+				// Start AppiumServer and AndroidDriver in Remote server.
+				// Set IosOptions
+				iosOptions = new XCUITestOptions();
+				iosOptions.setAutomationName(configFileProp.getProperty("IosAutomationName"));
+				iosOptions.setPlatformName(configFileProp.getProperty("IosPlatformName"));
+				iosOptions.setPlatformVersion(configFileProp.getProperty("IosPlatformVersion"));
+				iosOptions.setDeviceName(configFileProp.getProperty("IosDeviceName"));
+				iosOptions.setApp(configFileProp.getProperty("IosApp"));
+				iosOptions.withBrowserName(configFileProp.getProperty("IosBrowserName"));
+
+				// Set IosCapabilities
+				andiosCapabilities = new DesiredCapabilities();
+				andiosCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
+						configFileProp.getProperty("IosAutomationName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
+						configFileProp.getProperty("IosPlatformName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
+						configFileProp.getProperty("IosPlatformVersion"));
+				andiosCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
+						configFileProp.getProperty("IosDeviceName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.APP, configFileProp.getProperty("AndApp")); // With
+																													// path
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME,
+						configFileProp.getProperty("IosBrowserName"));
+				andiosCapabilities.setCapability(MobileCapabilityType.BROWSER_VERSION,
+						configFileProp.getProperty("IosBrowserVersion"));
+
+				// Initialize Android driver and AppiumServer in Remote Server.
+				iosDriver = new IOSDriver(new URL(configFileProp.getProperty("RemoteAppiumServerURL")), iosOptions); // With
+																														// Options.
+				iosDriver = new IOSDriver(new URL(configFileProp.getProperty("RemoteAppiumServerURL")),
+						andiosCapabilities); // With capabilities
+				log.info("Current session Id is: " + iosDriver.getSessionId());
+				break;
+			}
+			break;
+		}
+	}
+
+	// Close only driver.
+	public static void teardownDriver() {
+
+		String DevicePlatform = configFileProp.getProperty("DevicePlatform");
+
+		switch (DevicePlatform) {
+		case "Android":
+			andDriver.quit();
+			break;
+		case "IOS":
+			iosDriver.quit();
+			break;
+		}
+
+	}
+
+	@AfterAll
+	// Close AppiumServer after closing driver.
+	public static void teardownServer() {
+
+		String DevicePlatform = configFileProp.getProperty("DevicePlatform");
+
+		switch (DevicePlatform) {
+		case "Android":
+			andDriver.quit();
+			appiumServer.close();
+			break;
+		case "IOS":
+			iosDriver.quit();
+			appiumServer.close();
+			break;
+		}
+
+	}
+
+}

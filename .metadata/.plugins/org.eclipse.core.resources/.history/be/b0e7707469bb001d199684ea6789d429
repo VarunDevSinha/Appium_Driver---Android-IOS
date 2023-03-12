@@ -1,0 +1,26 @@
+#Author - varundevsinha@gmail.com
+Feature: This feature file is to test functionality of web application and native application, on mobile device.
+
+Background: The environment is available
+	Given I initialized the server and device emulator.
+	
+	@Android @WebApp
+	Scenario: The analyst is able to perform workflow action with valid "user_id" and "password".
+	Given The user submits user_id and password on login page.
+	And Successfully logged in as valid user.
+	When Verifying the access to hyperlink, and user is able to navigate.
+	Then With the details user able to search the case.
+	And Takes the action to update case status successfully and logged out.
+	
+	@Android @WebApp
+	Scenario Outline: The supervisor is able to perform workflow action for multiple cases with <user_id> and <password>.
+	Given The user succesfully logged in with valid credential.
+	And Verifyies the new cases added in the queue.
+	When Supervisor opens the cases one by one and approves the under investigation cases.
+	Then All the cases status description changes to status description.
+	And New case queue count reduced by approved cases count.
+	
+	Example: Following users.
+	user_id | password
+	supervisor101 | password123
+	supervisor202 | password456

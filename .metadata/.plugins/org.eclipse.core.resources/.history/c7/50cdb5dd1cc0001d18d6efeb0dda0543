@@ -1,0 +1,9 @@
+package com.test.stepDefinitions;
+
+public class TestExtentReport {
+
+	@BeforeAll
+	public static void setupEnvironment() {
+		
+	}
+}

@@ -1,0 +1,19 @@
+package com.test.runner;
+
+import org.junit.runner.RunWith;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(monochrome = true,
+		features = ".//src//test//resources//featureFile",
+		glue = ".//src//test//java//com//test//stepDefinitions",
+		dryRun = false,
+		tags = "@tag1",           //We can give multiple tags.
+		plugin = {"pretty", "html:.//trgt//junitReports//testRunReport.html", "json:.//trgt//junitReports//testRunReport.json"})
+
+
+public class RunCucumberTest {
+
+}

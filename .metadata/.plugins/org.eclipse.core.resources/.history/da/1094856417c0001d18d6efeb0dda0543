@@ -1,0 +1,518 @@
+package com.test.base;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.interactions.Actions;
+
+public class IOSFunctions extends AppiumBaseClass {
+
+	// Element functions for ios.
+	// Find elements using locators.
+	public static WebElement iosNativeElement(String Locator, String LocatorValue) {
+
+		WebElement element = null;
+		switch (Locator) {
+		case "id":
+			element = iosDriver.findElement(By.id(LocatorValue));
+			break;
+		case "className":
+			element = iosDriver.findElement(By.className(LocatorValue));
+			break;
+		case "xpath":
+			element = iosDriver.findElement(By.xpath(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - id / className / xpath.");
+		}
+		return element;
+	}
+
+	public static List<WebElement> iosNativeElements(String Locator, String LocatorValue) {
+
+		List<WebElement> elements = null;
+		switch (Locator) {
+		case "className":
+			elements = iosDriver.findElements(By.className(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - className.");
+		}
+		return elements;
+	}
+
+	public static WebElement iosWebElement(String Locator, String LocatorValue) {
+
+		WebElement element = null;
+		switch (Locator) {
+		case "id":
+			element = iosDriver.findElement(By.id(LocatorValue));
+			break;
+		case "className":
+			element = iosDriver.findElement(By.className(LocatorValue));
+			break;
+		case "name":
+			element = iosDriver.findElement(By.name(LocatorValue));
+			break;
+		case "xpath":
+			element = iosDriver.findElement(By.xpath(LocatorValue));
+			break;
+		case "cssSelector":
+			element = iosDriver.findElement(By.cssSelector(LocatorValue));
+			break;
+		case "tagName":
+			element = iosDriver.findElement(By.tagName(LocatorValue));
+			break;
+		case "linkText":
+			element = iosDriver.findElement(By.linkText(LocatorValue));
+			break;
+		case "partialLinkText":
+			element = iosDriver.findElement(By.partialLinkText(LocatorValue));
+			break;
+		default:
+			log.info(
+					"Give \"Locator\" as - id / className / name / xpath / cssSelector / tagName / linkText / partialLinkText.");
+		}
+		return element;
+	}
+
+	public static List<WebElement> iosWebElements(String Locator, String LocatorValue) {
+
+		List<WebElement> elements = null;
+
+		switch (Locator) {
+		case "className":
+			elements = iosDriver.findElements(By.className(LocatorValue));
+			break;
+		case "name":
+			elements = iosDriver.findElements(By.name(LocatorValue));
+			break;
+		case "tagName":
+			elements = iosDriver.findElements(By.tagName(LocatorValue));
+			break;
+		case "partialLinkText":
+			elements = iosDriver.findElements(By.partialLinkText(LocatorValue));
+			break;
+		default:
+			log.info("Give \"Locator\" as - className / name / tagName / partialLinkText.");
+		}
+
+		return elements;
+	}
+
+	public static WebElement switchActiveElement() {
+
+		WebElement element;
+		element = iosDriver.switchTo().activeElement();
+		return element;
+
+	}
+
+	// Element Action functions for ios.
+	// Single Element.
+	public static void iosElementAction(WebElement element, String actionType, String sendKeysValue) {
+
+		switch (actionType) {
+		case "submit":
+			element.submit();
+			break;
+		case "click":
+			element.click();
+		case "clear":
+			element.clear();
+			break;
+		case "sendKeys":
+			element.sendKeys(sendKeysValue);
+		default:
+			log.info("Give \"action\" as - submit / click / sendKeys; with string value in \"sendKeysValue\" / clear.");
+		}
+
+	}
+
+	// Element list.
+	public static void iosElementsAction(List<WebElement> elements, String actionType, String[] sendKeysValues) {
+
+		switch (actionType) {
+		case "submit":
+			for (WebElement element : elements) {
+				element.submit();
+			}
+			break;
+		case "click":
+			for (WebElement element : elements) {
+				element.click();
+			}
+		case "clear":
+			for (WebElement element : elements) {
+				element.clear();
+			}
+			break;
+		case "sendKeys":
+			for (WebElement element : elements) {
+				for (String value : sendKeysValues) {
+					element.sendKeys(value);
+				}
+			}
+			break;
+		default:
+			log.info("Give \"action\" as - submit / click / sendKeys; with string value in \"sendKeysValue\" / clear.");
+		}
+	}
+
+	// Get Element Attributes Functions.
+	public static void elementAttribute(WebElement element, String attributeType, String cssvalueORattribute) {
+
+		switch (attributeType) {
+		case "text":
+			String text = element.getText();
+			System.out.println("Element text: " + text);
+			break;
+		case "name":
+			String name = element.getTagName();
+			System.out.println("Element text: " + name);
+			break;
+		case "location":
+			Point location = element.getLocation();
+			System.out.println("X: " + location.getX() + " and Y: " + location.getY());
+			break;
+		case "size":
+			Dimension size = element.getSize();
+			System.out.println("Height: " + size.getHeight() + " and Width: " + size.getWidth());
+			break;
+		case "rectangle":
+			Rectangle rectangle = element.getRect();
+			System.out.println("X: " + rectangle.getX() + ", " + "Y: " + rectangle.getY() + ", " + "Height: "
+					+ rectangle.getHeight() + ",and Width: " + rectangle.getWidth());
+			break;
+		case "attribute":
+			String attributeValue = element.getAttribute(cssvalueORattribute);
+			System.out.println("Element attribute's value for" + cssvalueORattribute + "is: " + attributeValue);
+			break;
+		case "cssProperty":
+			String cssPropertyValue = element.getCssValue(cssvalueORattribute);
+			System.out.println("Element attribute's value for" + cssvalueORattribute + "is: " + cssPropertyValue);
+			break;
+		default:
+			log.info(
+					"Give \"attributeType\" as - text / name / location / size / rectangle / attribute / cssProperty.");
+		}
+	}
+
+	// Element validation functions
+	public static boolean validateiosElement(WebElement element, String validationType) {
+
+		boolean validatesTo = false;
+
+		switch (validationType) {
+		case "isEnabled":
+			validatesTo = element.isEnabled();
+			break;
+		case "isDisplayed":
+			validatesTo = element.isDisplayed();
+			break;
+		case "isSelected":
+			validatesTo = element.isSelected();
+			break;
+		default:
+			log.info("Give \"validationType\" as - isEnabled / isDisplayed / isSelected.");
+		}
+
+		return validatesTo;
+	}
+
+	// Session functions
+	public static void iosScreenshot(String screenshotType, String pageNameElementName, WebElement element)
+			throws IOException {
+
+		switch (screenshotType) {
+		case "driver":
+			File screenshotDriver = ((TakesScreenshot) andDriver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenshotDriver,
+					new File("//lib//trgt//screenshots//" + pageNameElementName + System.currentTimeMillis() + ".png"));
+			break;
+		case "element":
+			File screenshotElement = element.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenshotElement,
+					new File("//lib//trgt//screenshots//" + pageNameElementName + System.currentTimeMillis() + ".png"));
+			break;
+		default:
+			log.info(
+					"Give \"screenshotType\" as - driver / element. And \"pageNameElementName\" as - titleOfCurrentpage / nameOfTargetElement.");
+		}
+
+	}
+
+	public static void sessionTimeout(String timeoutType, long seconds) {
+
+		switch (timeoutType) {
+		case "pageLoadTimeout":
+			iosDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(seconds));
+			break;
+		case "implicitlyWait":
+			iosDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
+			break;
+		case "setScriptTimeout":
+			iosDriver.manage().timeouts().scriptTimeout(Duration.ofSeconds(seconds));
+			break;
+		default:
+			log.info("Give \"timeoutType\" as - pageLoadTimeout / implicitlyWait / setScriptTimeout.");
+		}
+	}
+
+	public static void sessionScreenOrientation(String orientationAction) {
+
+		switch (orientationAction) {
+		case "setOrientation":
+			ScreenOrientation currentOrientation = iosDriver.getOrientation();
+			if (currentOrientation.toString().equalsIgnoreCase("Landscape")) {
+				iosDriver.rotate(ScreenOrientation.PORTRAIT);
+			} else {
+				iosDriver.rotate(ScreenOrientation.LANDSCAPE);
+			}
+			break;
+		case "getOrientation":
+			iosDriver.getOrientation();
+			break;
+		default:
+			log.info("Give \"orientationAction\" as - setOrientation / getOrientation.");
+		}
+	}
+
+	// ios device functions.
+	public static void iosApp(String appActionType) {
+
+		switch (appActionType) {
+		case "isAppInstalled":
+			iosDriver.isAppInstalled(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "installApp":
+			iosDriver.installApp(configFileProp.getProperty("AndApp"));
+			break;
+		case "getAppState":
+			System.out.println(
+					"Current App state is: " + iosDriver.queryAppState(configFileProp.getProperty("AndAppPackage")));
+			break;
+		case "backgroundApp":
+			iosDriver.runAppInBackground(Duration.ofSeconds(5));
+			break;
+		case "activateApp":
+			iosDriver.activateApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "terminateApp":
+			iosDriver.terminateApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		case "removeApp":
+			iosDriver.removeApp(configFileProp.getProperty("AndAppPackage"));
+			break;
+		default:
+			log.info(
+					"Give \"appActionType\" as - isAppInstalled / installApp / getAppState / backgroundApp / activateApp / terminateApp / removeApp.");
+		}
+	}
+
+	public static void iosFileActions(String fileActionType, String SrcFilePath) throws IOException {
+
+		switch (fileActionType) {
+		case "pushFile":
+			iosDriver.pushFile(SrcFilePath, new File(configFileProp.getProperty("AndPushFilePath")));
+			break;
+		case "pullFile":
+			byte[] pulledFile = iosDriver.pullFile(configFileProp.getProperty("AndPullFilePath"));
+			System.out.println(pulledFile.toString());
+			break;
+		case "pullFolder":
+			byte[] pulledFolder = iosDriver.pullFile(configFileProp.getProperty("AndPullFolderPath"));
+			System.out.println(pulledFolder.toString());
+			break;
+		default:
+			log.info("Give \"fileActionType\" as - pushFile / pullFile / pullFolder.");
+		}
+	}
+
+	// ios Time and Lock button interaction.
+	public static void iosDeviceInteractions(String interactionType) {
+
+		switch (interactionType) {
+		case "deviceTime":
+			iosDriver.getDeviceTime();
+			break;
+		case "isLocked":
+			boolean deviceLockStatus = iosDriver.isDeviceLocked();
+			if (deviceLockStatus == true) {
+				iosDriver.unlockDevice();
+			} else {
+				iosDriver.lockDevice(Duration.ofSeconds(5));
+			}
+			break;
+		case "lock":
+			iosDriver.lockDevice(Duration.ofSeconds(5));
+			break;
+		case "unlock":
+			iosDriver.unlockDevice();
+			break;
+		default:
+			log.info("Give \"interactionType\" as - deviceTime / isLocked / lock / unlock.");
+		}
+	}
+
+	// ios Mouse and Screen interaction.
+	public static void deviceMouseTouchFunctions(String mouseActionType, WebElement element, int x, int y) {
+
+		Actions act = new Actions(andDriver);
+
+		switch (mouseActionType) {
+		case "moveToElement":
+			act.moveToElement(element);
+			break;
+		case "moveToCordinate":
+			act.moveByOffset(x, y);
+			break;
+		case "click":
+			act.click(element).perform();
+			break;
+		case "doubleClick":
+			act.doubleClick(element).perform();
+			break;
+		case "clickHold":
+			act.clickAndHold(element).perform();
+			break;
+		case "clickHoldRelease":
+			act.dragAndDropBy(element, x, y);
+			break;
+		default:
+			log.info(
+					"Give \"mouseActionType\" as - moveToElement / moveToCordinate / click / doubleClick / clickHold / clickHoldRelease.");
+		}
+	}
+
+	public static Set<String> windowHandle(String handleType) {
+
+		Set<String> windowHandles = new HashSet<String>();
+
+		switch (handleType) {
+		case "singleWindow":
+			windowHandles.add(iosDriver.getWindowHandle());
+			break;
+		case "multiWindow":
+			windowHandles.addAll(iosDriver.getWindowHandles());
+			break;
+		default:
+			log.info("Give \"handleType\" as - singleWindow / multiWindow.");
+		}
+		return windowHandles;
+	}
+
+	public static void windowSizePosition(String windowHandle, String windowManageType, Dimension winSize,
+			Point winPosition) {
+
+		switch (windowManageType) {
+		case "maximize":
+			iosDriver.manage().window().maximize();
+			break;
+		case "getSize":
+			Dimension curWinSize = iosDriver.manage().window().getSize();
+			System.out.println("Window size H:W is - " + curWinSize.getHeight() + ":" + curWinSize.getWidth());
+			break;
+		case "setSize":
+			iosDriver.manage().window().setSize(winSize);
+			break;
+		case "getPosition":
+			Point curWinPos = iosDriver.manage().window().getPosition();
+			System.out.println("Window position X:Y is - " + curWinPos.getX() + ":" + curWinPos.getY());
+			break;
+		case "setPosition":
+			iosDriver.manage().window().setPosition(winPosition);
+			break;
+		default:
+			log.info(
+					"Give \"windowManageType\" as - maximize / getSize / setSize; with Height and Width as winSize/ getPosition / setPosition; with x and y as winPosition.");
+		}
+	}
+
+	public static void windowSwitchNavigateFunctions(String switchAction, String windowHandle, URL newURL,
+			WebElement frameElement) {
+
+		switch (switchAction) {
+		case "goURL":
+			iosDriver.get(newURL.toString());
+			break;
+		case "getURL":
+			System.out.println("Current window / tab URL: " + iosDriver.getCurrentUrl());
+			break;
+		case "back":
+			iosDriver.navigate().back();
+			break;
+		case "forward":
+			iosDriver.navigate().forward();
+			break;
+		case "refresh":
+			iosDriver.navigate().refresh();
+			break;
+		case "switchToFrame":
+			iosDriver.switchTo().frame(frameElement);
+			break;
+		case "switchToParentFrame":
+			iosDriver.switchTo().parentFrame();
+			break;
+		case "openNewWindow":
+			String newWindowHandle = iosDriver.switchTo().newWindow(WindowType.WINDOW).getWindowHandle();
+			System.out.println("New open windowHandle is - " + newWindowHandle);
+			break;
+		case "openNewTab":
+			String newTabHandle = iosDriver.switchTo().newWindow(WindowType.TAB).getWindowHandle();
+			System.out.println("New open windowHandle is - " + newTabHandle);
+			break;
+		case "switchTo":
+			iosDriver.switchTo().window(windowHandle);
+			break;
+		case "getTitle":
+			iosDriver.getTitle();
+			break;
+		case "close":
+			iosDriver.close();
+			break;
+		default:
+			log.info(
+					"Give \"switchAction\" as - goURL / getURL / back / forward / refresh / switchToFrame; frame WebElement / switchToParentFrame / openNewWindow / openNewTab / switchTo / getTitle / close. Add specific window handle as string.");
+		}
+	}
+
+	public static void cookieStorageFunction(String cookieFunctionType, String deleteCookie, Cookie setCookie) {
+		switch (cookieFunctionType) {
+		case "setCookie":
+			iosDriver.manage().addCookie(setCookie);
+			break;
+		case "getAllCookie":
+			Set<Cookie> currentCookies = iosDriver.manage().getCookies();
+			Stream<Cookie> cookieStream = currentCookies.stream();
+			cookieStream.forEach(t -> System.out.println(t));
+			break;
+		case "deleteCookie":
+			iosDriver.manage().deleteCookieNamed(deleteCookie);
+			break;
+		case "deleteAllCookie":
+			iosDriver.manage().deleteAllCookies();
+			break;
+		default:
+			log.info("Give \"cookieFunctionType\" as - setCookie / getAllCookie / deleteCookie / deleteAllCookie.");
+		}
+
+	}
+}

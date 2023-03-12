@@ -1,0 +1,25 @@
+#Author: varundevsinha@gmail.com
+@tag
+Feature: Title of your another feature
+  I want to use this template for my feature file
+
+  @tag1 @IOS @iosNative
+  Scenario Outline: Title of your scenario outline1.
+    Given A want to write a step with <precondition>
+    And More other precondition
+    When A complete action
+    And More other action
+    And More another action
+    Then A validate the outcomes
+    And A check more outcomes
+
+  @tag2 @IOS @iosWebApp
+  Scenario Outline: Title of your scenario outline2.
+    Given A want to write a step with <name>
+    When A check for the <value> in step
+    Then A verify the <status> in step
+
+    Examples: 
+      | name  | value | status  |
+      | name1 |     5 | success |
+      | name2 |     7 | Fail    |

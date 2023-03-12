@@ -1,0 +1,76 @@
+package com.test.glueCode;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.cucumber.java.it.Data;
+
+public class AndroidTest {
+
+	@Given("I initialized the server and device emulator.")
+	public void i_initialized_the_server_and_device_emulator() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("The user submits {string} and {string} on login page.")
+	public void the_user_submits_and_on_login_page(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("Successfully logged in as valid user.")
+	public void successfully_logged_in_as_valid_user() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@When("Verifying the access to hyperlink, and user is able to navigate.")
+	public void verifying_the_access_to_hyperlink_and_user_is_able_to_navigate() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("With the details user able to search the case.")
+	public void with_the_details_user_able_to_search_the_case() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("Takes the action to update case status successfully and logged out.")
+	public void takes_the_action_to_update_case_status_successfully_and_logged_out() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("The user succesfully logged in with with {string} and {string}.")
+	public void the_user_succesfully_logged_in_with_with_and(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Given("Verifyies the new cases added in the queue.")
+	public void verifyies_the_new_cases_added_in_the_queue() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@When("Supervisor opens the cases one by one and approves the under investigation cases.")
+	public void supervisor_opens_the_cases_one_by_one_and_approves_the_under_investigation_cases() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("All the cases status description changes to status description.")
+	public void all_the_cases_status_description_changes_to_status_description() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	@Then("New case queue count reduced by approved cases count.")
+	public void new_case_queue_count_reduced_by_approved_cases_count() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+}

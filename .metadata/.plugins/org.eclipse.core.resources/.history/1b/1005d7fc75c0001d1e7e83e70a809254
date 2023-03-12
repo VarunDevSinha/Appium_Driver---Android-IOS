@@ -1,0 +1,57 @@
+package com.test.utils;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentReporter;
+
+//import com.relevantcodes.extentreports.ExtentReports;
+//import com.relevantcodes.extentreports.ExtentTest;
+//import com.relevantcodes.extentreports.LogStatus;
+
+public class ReportUtilities {
+
+	ExtentHtmlReporter htmlReporter;
+	 
+    ExtentReports extent;
+    //helps to generate the logs in the test report.
+    ExtentTest test;
+	
+//reportPath + "extentReport_" + "testName" + System.currentTimeMillis() + ".html",false
+	public static void reports(String reportPath, String testName) {
+		
+		ExtentReporter(reportPath + "extentReport_" + "testName" + System.currentTimeMillis() + ".html");
+		reports = new ExtentReports();
+		test = reports.createTest(testName);
+		//test = reports.startTest(testName);
+	}
+
+	public static void logTest(String status) {
+
+		switch (status) {
+		case "PASS":
+			test.log(LogStatus.PASS, "Test case passed");
+			break;
+		case "FAIL":
+			test.log(LogStatus.FAIL, "Test case failed");
+			break;
+		case "ERROR":
+			test.log(LogStatus.ERROR, "Error in test case execution");
+			break;
+		case "WARNING":
+			test.log(LogStatus.WARNING, "Warning in test case execution");
+			break;
+		case "FATAL":
+			test.log(LogStatus.FATAL, "Test case execution interupted");
+			break;
+		default:
+			System.out.println("Give \"statuc\" as - PASS / FAIL / ERROR / WARNING / FATAL.");
+		}
+
+	}
+
+	public static void endTest() {
+
+		reports.endTest(test);
+		reports.flush();
+	}
+}

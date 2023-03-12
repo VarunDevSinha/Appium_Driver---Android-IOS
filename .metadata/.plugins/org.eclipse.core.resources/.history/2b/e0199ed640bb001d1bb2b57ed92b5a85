@@ -1,0 +1,9 @@
+package com.test.pom;
+
+import com.test.base.AndroidFunctions;
+
+public class AndroidNative extends AndroidFunctions{
+
+	@FindBy()
+
+}

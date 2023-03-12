@@ -1,0 +1,64 @@
+package com.test.utils;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentReporter;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
+
+//import com.relevantcodes.extentreports.ExtentReports;
+//import com.relevantcodes.extentreports.ExtentTest;
+//import com.relevantcodes.extentreports.LogStatus;
+
+public class ReportUtilities {
+
+	public static ExtentSparkReporter htmlReporter;
+	public static ExtentReports reports;
+	// helps to generate the logs in the test report.
+	public static ExtentTest test;
+
+//reportPath + "extentReport_" + "testName" + System.currentTimeMillis() + ".html",false
+	public static void reports(String reportPath, String testName) {
+
+		htmlReporter = new ExtentSparkReporter(
+				reportPath + "extentReport_" + "testName" + System.currentTimeMillis() + ".html");
+		reports = new ExtentReports();
+		reports.attachReporter(htmlReporter);
+		
+        htmlReporter.config().setDocumentTitle("Simple Automation Report");
+        htmlReporter.config().setReportName("Test Report");
+        htmlReporter.config().setTheme(Theme.STANDARD);
+        htmlReporter.config().setTimeStampFormat("EEEE, MMMM dd, yyyy, hh:mm a '('zzz')'");
+		test = reports.createTest(testName);
+	}
+
+	public static void logTest(String status) {
+
+		switch (status) {
+		case "PASS":
+			test.log(LogStatus.PASS, "Test case passed");
+			break;
+		case "FAIL":
+			test.log(LogStatus.FAIL, "Test case failed");
+			break;
+		case "ERROR":
+			test.log(LogStatus.ERROR, "Error in test case execution");
+			break;
+		case "WARNING":
+			test.log(LogStatus.WARNING, "Warning in test case execution");
+			break;
+		case "FATAL":
+			test.log(LogStatus.FATAL, "Test case execution interupted");
+			break;
+		default:
+			System.out.println("Give \"statuc\" as - PASS / FAIL / ERROR / WARNING / FATAL.");
+		}
+
+	}
+
+	public static void endTest() {
+
+		reports.endTest(test);
+		reports.flush();
+	}
+}

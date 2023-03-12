@@ -1,0 +1,12 @@
+package com.test.pom;
+
+import com.test.utils.IOSFunctions;
+
+public class IosNative extends IOSFunctions{
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
