@@ -44,7 +44,7 @@ public class JavaUtilities {
 	public static void adbCommand(String batFilePath) throws IOException, InterruptedException {
 
 		// Create process builder to configure the batch file.
-		ProcessBuilder batProcessBuild = new ProcessBuilder(batFilePath);
+		ProcessBuilder batProcessBuild = new ProcessBuilder("cmd.exe", "/c", "cd \batfile complete path_without fileName\" && adb.bat");
 
 		// Create and start process using the ProcessBuilder object.
 		Process batProcess = batProcessBuild.start();
